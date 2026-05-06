@@ -248,25 +248,30 @@
 
   <!-- 💫 JS TRANSITION LOGIC -->
   <script>
-    const overlay = document.getElementById("transition");
+  const overlay = document.getElementById("transition");
 
-    document.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", (e) => {
-        const href = link.getAttribute("href");
+  function resetTransition() {
+    overlay.classList.remove("active");
+  }
 
-        // only intercept external/internal page links
-        if (href && (href.startsWith("/") || href.startsWith("http"))) {
-          e.preventDefault();
+  // 🧠 Fix back/forward cache issues
+  window.addEventListener("pageshow", resetTransition);
 
-          overlay.classList.add("active");
+  document.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
 
-          setTimeout(() => {
-            window.location.href = href;
-          }, 300);
-        }
-      });
+      if (href && (href.startsWith("/") || href.startsWith("http"))) {
+        e.preventDefault();
+
+        overlay.classList.add("active");
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 300);
+      }
     });
-  </script>
-
+  });
+</script>
 </body>
 </html>
