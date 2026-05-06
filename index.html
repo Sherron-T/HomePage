@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>sherron.live</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -44,6 +46,21 @@
       pointer-events: none;
     }
 
+    /* 💫 TRANSITION OVERLAY */
+    .transition {
+      position: fixed;
+      inset: 0;
+      background: #07070d;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      z-index: 9999;
+    }
+
+    .transition.active {
+      opacity: 1;
+    }
+
     .container {
       width: 100%;
       max-width: 580px;
@@ -51,9 +68,7 @@
       z-index: 1;
     }
 
-    .header {
-      margin-bottom: 2.5rem;
-    }
+    .header { margin-bottom: 2.5rem; }
 
     .name {
       font-size: 0.72rem;
@@ -177,13 +192,19 @@
     }
   </style>
 </head>
+
 <body>
+
+  <!-- 💫 overlay for transitions -->
+  <div class="transition" id="transition"></div>
 
   <div class="container">
     <div class="header">
       <div class="name">sherron.live</div>
       <div class="title">Healthcare UI Prototypes</div>
-      <div class="subtitle">Interactive demos from the Harvard Health Systems Innovation Lab and Yale Healthcare Hackathon, 2026.</div>
+      <div class="subtitle">
+        Interactive demos from the Harvard Health Systems Innovation Lab and Yale Healthcare Hackathon, 2026.
+      </div>
     </div>
 
     <div class="cards">
@@ -197,7 +218,9 @@
             <span class="card-location">Cambridge, MA</span>
           </div>
           <div class="card-name">Psychiatry EHR</div>
-          <div class="card-desc">Outpatient psychiatry-focused EMR designed to streamline clinical workflows and surface outcome metrics at the point of care.</div>
+          <div class="card-desc">
+            Outpatient psychiatry-focused EMR designed to streamline clinical workflows and surface outcome metrics at the point of care.
+          </div>
         </div>
         <div class="card-arrow">→</div>
       </a>
@@ -211,15 +234,39 @@
             <span class="card-location">New Haven, CT</span>
           </div>
           <div class="card-name">NYC Public Health Map</div>
-          <div class="card-desc">Aggregates NYC open data to visualize real-time access to naloxone sites, syringe service programs, and community healthcare resources.</div>
+          <div class="card-desc">
+            Aggregates NYC open data to visualize real-time access to naloxone sites, syringe service programs, and community healthcare resources.
+          </div>
         </div>
         <div class="card-arrow">→</div>
       </a>
 
     </div>
 
-    <footer>© 2026 &nbsp;·&nbsp; sherron.live</footer>
+    <footer>© 2026 · sherron.live</footer>
   </div>
+
+  <!-- 💫 JS TRANSITION LOGIC -->
+  <script>
+    const overlay = document.getElementById("transition");
+
+    document.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+
+        // only intercept external/internal page links
+        if (href && (href.startsWith("/") || href.startsWith("http"))) {
+          e.preventDefault();
+
+          overlay.classList.add("active");
+
+          setTimeout(() => {
+            window.location.href = href;
+          }, 300);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
