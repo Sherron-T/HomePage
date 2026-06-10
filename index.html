@@ -3,275 +3,172 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sherron.live</title>
-
+  <title>Sherron — Healthcare Prototypes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #07070d;
-      --surface: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.18);
-      --text: #f0f0f8;
-      --muted: rgba(240,240,248,0.4);
-      --dim: rgba(240,240,248,0.2);
+      --ink: #1c1c1c;
+      --body: #3d3d3d;
+      --muted: #8a8a85;
+      --rule: #e7e6e1;
+      --link: #1a4d8f;
+      --link-underline: #c3d3e8;
+      --paper: #fcfcfa;
     }
+
+    html { -webkit-font-smoothing: antialiased; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', system-ui, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--paper);
+      color: var(--body);
+      line-height: 1.65;
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: -10%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 500px;
-      background: radial-gradient(ellipse, rgba(100,70,220,0.1) 0%, transparent 70%);
-      pointer-events: none;
+    header {
+      margin-bottom: 4rem;
     }
 
-    /* 💫 TRANSITION OVERLAY */
-    .transition {
-      position: fixed;
-      inset: 0;
-      background: #07070d;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-      z-index: 9999;
-    }
-
-    .transition.active {
-      opacity: 1;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 580px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header { margin-bottom: 2.5rem; }
-
-    .name {
-      font-size: 0.72rem;
+    h1 {
+      font-size: 1.7rem;
       font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .intro {
+      font-size: 1.02rem;
+      color: var(--muted);
+      max-width: 32em;
+    }
+
+    .section-label {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 0.6rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 2.25rem;
     }
 
-    .title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+    .project {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
     }
 
-    .subtitle {
-      margin-top: 0.5rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .cards {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .card {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.25rem;
-      padding: 1.4rem 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.2s, background 0.2s, transform 0.2s;
-      backdrop-filter: blur(12px);
-    }
-
-    .card:hover {
-      border-color: var(--border-hover);
-      background: rgba(255,255,255,0.065);
-      transform: translateX(4px);
-    }
-
-    .card-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .card-icon.purple { background: rgba(130,90,255,0.14); }
-    .card-icon.teal   { background: rgba(60,200,160,0.12); }
-
-    .card-body { flex: 1; }
-
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .card-org {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .card-dot { color: var(--dim); font-size: 0.5rem; }
-
-    .card-location {
-      font-size: 0.68rem;
-      color: var(--dim);
-    }
-
-    .card-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      line-height: 1.3;
-      margin-bottom: 0.35rem;
-    }
-
-    .card-desc {
+    .project-year {
+      font-family: 'Inter', -apple-system, sans-serif;
       font-size: 0.78rem;
+      font-weight: 500;
       color: var(--muted);
-      line-height: 1.6;
+      padding-top: 0.35rem;
     }
 
-    .card-arrow {
-      color: var(--dim);
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      transition: color 0.2s, transform 0.2s;
-      margin-top: 2px;
+    .project h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 0.3rem;
     }
 
-    .card:hover .card-arrow {
-      color: var(--text);
-      transform: translateX(3px);
+    .project h2 a {
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 1px solid var(--link-underline);
+      transition: border-color 0.15s ease;
     }
+
+    .project h2 a:hover {
+      border-bottom-color: var(--link);
+    }
+
+    .project-meta {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .project p {
+      font-size: 0.95rem;
+    }
+
+    .view-link {
+      display: inline-block;
+      margin-top: 0.7rem;
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .view-link:hover { text-decoration: underline; }
 
     footer {
-      margin-top: 2.5rem;
-      font-size: 0.7rem;
-      color: var(--dim);
-      letter-spacing: 0.06em;
+      margin-top: 4.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.74rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 520px) {
+      body { padding-top: 4rem; }
+      .project { grid-template-columns: 1fr; gap: 0.4rem; }
+      .project-year { padding-top: 0; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- 💫 overlay for transitions -->
-  <div class="transition" id="transition"></div>
+  <header>
+    <h1>Sherron</h1>
+    <p class="intro">Prototypes exploring how thoughtful interface design can improve healthcare delivery and access.</p>
+  </header>
 
-  <div class="container">
-    <div class="header">
-      <div class="name">sherron.live</div>
-      <div class="title">Healthcare UI Prototypes</div>
-      <div class="subtitle">
-        Interactive demos from the Harvard Health Systems Innovation Lab and Yale Healthcare Hackathon, 2026.
-      </div>
+  <div class="section-label">Selected Work</div>
+
+  <div class="project">
+    <div class="project-year">2026</div>
+    <div>
+      <h2><a href="https://ehr.sherron.live">Psychiatry EHR</a></h2>
+      <div class="project-meta">Harvard Health Systems Innovation Lab &middot; Cambridge, MA</div>
+      <p>A UI prototype for an outpatient psychiatry-focused electronic medical record system, designed to streamline clinical workflows and surface psychiatry-specific outcome metrics at the point of care.</p>
+      <a class="view-link" href="https://ehr.sherron.live">View prototype &rarr;</a>
     </div>
-
-    <div class="cards">
-
-      <a class="card" href="https://ehr.sherron.live">
-        <div class="card-icon purple">🏥</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="card-org">Harvard Health Systems Innovation Lab</span>
-            <span class="card-dot">●</span>
-            <span class="card-location">Cambridge, MA</span>
-          </div>
-          <div class="card-name">Psychiatry EHR</div>
-          <div class="card-desc">
-            Outpatient psychiatry-focused EMR designed to streamline clinical workflows and surface outcome metrics at the point of care.
-          </div>
-        </div>
-        <div class="card-arrow">→</div>
-      </a>
-
-      <a class="card" href="https://app.sherron.live">
-        <div class="card-icon teal">🗺️</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="card-org">Yale Healthcare Hackathon 2026</span>
-            <span class="card-dot">●</span>
-            <span class="card-location">New Haven, CT</span>
-          </div>
-          <div class="card-name">NYC Public Health Map</div>
-          <div class="card-desc">
-            Aggregates NYC open data to visualize real-time access to naloxone sites, syringe service programs, and community healthcare resources.
-          </div>
-        </div>
-        <div class="card-arrow">→</div>
-      </a>
-
-    </div>
-
-    <footer>© 2026 · sherron.live</footer>
   </div>
 
-  <!-- 💫 JS TRANSITION LOGIC -->
-  <script>
-  const overlay = document.getElementById("transition");
+  <div class="project">
+    <div class="project-year">2026</div>
+    <div>
+      <h2><a href="https://app.sherron.live">NYC Public Health Map</a></h2>
+      <div class="project-meta">Yale Healthcare Hackathon &middot; New Haven, CT</div>
+      <p>A public health mapping application that aggregates NYC open data to visualize real-time access to naloxone distribution sites, syringe service programs, and community healthcare resources for underserved populations.</p>
+      <a class="view-link" href="https://app.sherron.live">View prototype &rarr;</a>
+    </div>
+  </div>
 
-  function resetTransition() {
-    overlay.classList.remove("active");
-  }
+  <footer>
+    <span>sherron.live</span>
+    <span>2026</span>
+  </footer>
 
-  // 🧠 Fix back/forward cache issues
-  window.addEventListener("pageshow", resetTransition);
-
-  document.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-
-      if (href && (href.startsWith("/") || href.startsWith("http"))) {
-        e.preventDefault();
-
-        overlay.classList.add("active");
-
-        setTimeout(() => {
-          window.location.href = href;
-        }, 300);
-      }
-    });
-  });
-</script>
 </body>
 </html>
